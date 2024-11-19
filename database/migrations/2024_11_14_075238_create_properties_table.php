@@ -17,10 +17,10 @@ return new class extends Migration
             $table->enum('type', ['parcel', 'pier'])->default('parcel');
             $table->foreignId('tenant_id')->nullable()->constrained('tenants')->onDelete('set null');
             $table->foreignId('area_id')->constrained('areas')->cascadeOnDelete();
-            $table->string('num')->nullable();
+            $table->string('number')->unique();
             $table->string('old_num')->nullable();
             $table->float('size_m2')->nullable();
-            $table->date('evi_start');  // evidence start date
+            $table->date('evi_start')->nullable();  // evidence start date
             $table->date('evi_end')->nullable();  // evidence end date
             $table->text('evi_end_rsn')->nullable();  // evidence end reason
             $table->foreignId('invoice_id')->nullable()->constrained('invoices')->onDelete('set null');

@@ -33,18 +33,20 @@ class ContractResource extends Resource
             ->schema([
                 Select::make('tenant_id')
                     ->relationship('tenant', 'first_name')
-                    ->label('Meno Nájomníka'),
+                    ->label('Meno Nájomníka')
+                    ->required(),
 
                 Select::make('property_id')
-                    ->relationship('property', 'num')
-                    ->label('Parcela / Mólo'),
+                    ->relationship('property', 'number')
+                    ->label('Parcela / Mólo')
+                    ->required(),
 
-                TextInput::make('num')->label('Číslo'),
+                TextInput::make('number')->label('Číslo'),
                 TextInput::make('bail')->numeric()->label('Kaucia'),
                 TextInput::make('yearly_fee')->numeric()->label('Ročný poplatok'),
                 TextInput::make('tax')->numeric()->label('Daň'),
                 TextInput::make('pay_term')->numeric()->label('Platobný termín'),
-                DatePicker::make('start_date'),
+                DatePicker::make('start_date')->required(),
                 DatePicker::make('length'),
                 DatePicker::make('end_date'),
 
@@ -56,7 +58,7 @@ class ContractResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('tenant.full_name')->label('Nájomník')->searchable(['first_name', 'last_name']),
-                TextColumn::make('num')->searchable()->label('Číslo'),
+                TextColumn::make('number')->searchable()->label('Číslo'),
             ])
             ->filters([
                 //

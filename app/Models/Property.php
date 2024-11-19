@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Property extends Model
 {
-    protected $fillable = ['type', 'tenant_id', 'area_id', 'num', 'old_num', 'size_m2',
+    protected $fillable = ['type', 'tenant_id', 'area_id', 'number', 'old_num', 'size_m2',
         'evi_start', 'evi_end', 'evi_end_reason'];
 
     public function tenant(): BelongsTo{

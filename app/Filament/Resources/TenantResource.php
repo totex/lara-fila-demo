@@ -32,19 +32,27 @@ class TenantResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('first_name')
-                    ->label('meno')
-                    ->required(),
+                Forms\Components\Section::make('Nájomník')->schema([
+                    TextInput::make('first_name')
+                        ->label('Meno')
+                        ->required(),
 
-                TextInput::make('last_name')
-                    ->label('priezvisko')
-                    ->required(),
+                    TextInput::make('last_name')
+                        ->label('Priezvisko')
+                        ->required(),
 
-                TextInput::make('address')
-                    ->label('adresa')
-                    ->required(),
+                    TextInput::make('address')
+                        ->label('Adresa')
+                        ->required(),
 
-                TextInput::make('iban')->required(),
+                    TextInput::make('email')
+                        ->label('Email'),
+
+                    TextInput::make('phone')
+                        ->label('telefón'),
+
+                    TextInput::make('iban'),
+                ])->collapsible()->columns()
             ]);
     }
 
@@ -52,9 +60,11 @@ class TenantResource extends Resource
     {
         return $table
             ->columns([
-//                TextColumn::make('first_name')->label('meno'),
-//                TextColumn::make('last_name')->label('priezvisko'),
-                TextColumn::make('full_name')->label('Meno Nájomníka'),  // see getFullNameAttribute in Tenant model
+
+                // see getFullNameAttribute in Tenant model
+                TextColumn::make('full_name')->label('Meno Nájomníka')
+                    ->searchable(['first_name', 'last_name', 'email']),
+
                 TextColumn::make('address')->label('Adresa'),
             ])
             ->filters([

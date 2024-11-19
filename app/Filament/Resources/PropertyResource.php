@@ -33,16 +33,41 @@ class PropertyResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('type')->label('Typ')->options(['parcel' => 'Parcela', 'pier' => 'Mólo']),
-                Forms\Components\Select::make('tenant_id')->relationship('tenant', 'first_name'),
-                Forms\Components\Select::make('area_id')->relationship('area', 'name'),
-                TextInput::make('num')->label('Číslo parcely/móla'),
-                TextInput::make('old_num')->label('Staré číslo parcely/móla'),
-                TextInput::make('size_m2')->label('Veľkosť m2'),
-                DatePicker::make('evi_start')->label('Zaraďená do evidencii'),
-                DatePicker::make('evi_end')->label('Vyraďená z evidencii'),
-                Textarea::make('evi_end_rsn')->label('Dôvod vyradenia'),
-                Forms\Components\Select::make('invoice_id')->relationship('invoice', 'number'),
+                Forms\Components\Section::make('Oblasti')
+                    ->schema([
+                        Forms\Components\Select::make('type')
+                            ->label('Typ')
+                            ->options(['parcel' => 'Parcela', 'pier' => 'Mólo'])
+                            ->required(),
+                        Forms\Components\Select::make('area_id')
+                            ->label('Územie')
+                            ->relationship('area', 'name')
+                            ->required(),
+                        TextInput::make('number')
+                            ->label('Číslo parcely/móla')
+                            ->required(),
+
+                        Forms\Components\Select::make('tenant_id')
+                            ->label('Nájomník')
+                            ->relationship('tenant', 'first_name'),
+
+                        TextInput::make('old_num')->label('Staré číslo parcely/móla'),
+                        TextInput::make('size_m2')->label('Veľkosť m2'),
+                        DatePicker::make('evi_start')->label('Zaraďená do evidencii'),
+                        DatePicker::make('evi_end')->label('Vyraďená z evidencii'),
+
+//                Forms\Components\RichEditor::make('evi_end_rsn')
+//                    ->label('Dôvod vyradenia')
+//                    ->columnSpan('full'),
+
+                        Textarea::make('evi_end_rsn')
+                            ->label('Dôvod vyradenia')
+                            ->columnSpan('full'),
+
+                        Forms\Components\Select::make('invoice_id')
+                            ->label('Faktúra')
+                            ->relationship('invoice', 'number'),
+                    ])->collapsible()->columns(2)
             ]);
     }
 
@@ -55,7 +80,7 @@ class PropertyResource extends Resource
 
                 TextColumn::make('area.name')->label('Územie')->searchable(),
                 TextColumn::make('tenant.full_name')->label('Nájomník')->searchable(['first_name', 'last_name']),
-                TextColumn::make('num')->label('Číslo')->searchable()
+                TextColumn::make('number')->label('Číslo')->searchable()
             ])
             ->filters([
                 SelectFilter::make('type')->options(['parcel' => 'parcela', 'pier' => 'mólo'])

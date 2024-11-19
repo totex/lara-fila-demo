@@ -28,7 +28,9 @@ class AreaResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->label('meno')
+                TextInput::make('name')
+                    ->label('Meno Územia')
+                    ->required(),
             ]);
     }
 
@@ -36,7 +38,7 @@ class AreaResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('meno')
+                TextColumn::make('name')->label('Meno Územia')
             ])
             ->filters([
                 //
