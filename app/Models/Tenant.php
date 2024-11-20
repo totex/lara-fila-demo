@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends Model
 {
-    protected $fillable = ['first_name', 'last_name', 'address', 'iban'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'iban'];
 
     public function getFullNameAttribute()
     {

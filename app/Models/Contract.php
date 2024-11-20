@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Contract extends Model
 {
-    protected $fillable = ['tenant_id', 'property_id', 'num', 'bail',
+    protected $fillable = ['tenant_id', 'property_id', 'number', 'bail',
         'yearly_fee', 'tax', 'pay_term', 'start_date', 'length', 'end_date'];
 
     public function tenant(): BelongsTo {
