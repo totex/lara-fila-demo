@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PropertyResource\Pages;
 use App\Filament\Resources\PropertyResource\RelationManagers;
 use App\Models\Property;
+use App\Models\Tenant;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
@@ -16,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PropertyResource extends Resource
@@ -49,7 +51,31 @@ class PropertyResource extends Resource
 
                         Forms\Components\Select::make('tenant_id')
                             ->label('Nájomník')
-                            ->relationship('tenant', 'first_name'),
+//                            ->relationship('tenant', 'first_name')
+//                            ->relationship('tenant', 'first_name')
+//                            ->options(Tenant::all()->pluck('full_name', 'id'))
+//                            ->getSearchResultsUsing(fn (string $search): array => Tenant::where('first_name', 'like', "%{$search}%")
+//                                ->limit(5)->pluck('first_name', 'id')->toArray())
+                            ->relationship(
+                                name: 'tenant',
+                                modifyQueryUsing: fn (Builder $query) => $query->orderBy('first_name')->orderBy('last_name'),
+                            )
+                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+
+                            ->searchable(['first_name', 'last_name', 'email'])
+//                            ->live()
+//                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('first_name')
+                                    ->label('Meno')
+                                    ->required(),
+                                Forms\Components\TextInput::make('last_name')
+                                    ->label('Priezvisko')
+                                    ->required(),
+                                Forms\Components\TextInput::make('address')
+                                    ->label('Adresa')
+                                    ->required(),
+                            ]),
 
                         TextInput::make('old_num')->label('Staré číslo parcely/móla'),
                         TextInput::make('size_m2')->label('Veľkosť m2'),
@@ -74,13 +100,25 @@ class PropertyResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->columns([
                 // see getPropertyTypeAttribute in Property model
                 TextColumn::make('property_type')->label('Typ'),
 
-                TextColumn::make('area.name')->label('Územie')->searchable(),
-                TextColumn::make('tenant.full_name')->label('Nájomník')->searchable(['first_name', 'last_name']),
-                TextColumn::make('number')->label('Číslo')->searchable()
+                TextColumn::make('area.name')
+                    ->label('Územie')
+                    ->icon('heroicon-o-magnifying-glass')
+                    ->searchable(),
+
+                TextColumn::make('tenant.full_name')
+                    ->label('Nájomník')
+                    ->icon('heroicon-o-magnifying-glass')
+                    ->searchable(['first_name', 'last_name']),
+
+                TextColumn::make('number')
+                    ->label('Číslo')
+                    ->icon('heroicon-o-magnifying-glass')
+                    ->searchable()
             ])
             ->filters([
                 SelectFilter::make('type')->options(['parcel' => 'parcela', 'pier' => 'mólo'])
