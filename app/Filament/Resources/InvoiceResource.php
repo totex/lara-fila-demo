@@ -31,7 +31,7 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('contract_id')->relationship('contract', 'num'),
+                Select::make('contract_id')->relationship('contract', 'number'),
                 Select::make('tenant_id')->relationship('tenant', 'first_name'),
                 TextInput::make('number')->required(),
                 DatePicker::make('issue_date')->required(),
