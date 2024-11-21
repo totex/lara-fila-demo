@@ -23,8 +23,8 @@ return new class extends Migration
             $table->date('evi_start')->nullable();  // evidence start date
             $table->date('evi_end')->nullable();  // evidence end date
             $table->text('evi_end_rsn')->nullable();  // evidence end reason
-            $table->foreignId('invoice_id')->nullable()->constrained('invoices')->onDelete('set null');
-            $table->foreignId('contract_id')->nullable()->constrained('contracts')->onDelete('set null');
+//            $table->foreignId('invoice_id')->nullable()->constrained('invoices')->onDelete('set null');
+//            $table->foreignId('contract_id')->nullable()->constrained('contracts')->onDelete('set null');
 
             $table->timestamps();
         });

@@ -31,8 +31,9 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('contract_id')->relationship('contract', 'number'),
-                Select::make('tenant_id')->relationship('tenant', 'first_name'),
+                Select::make('tenant_id')->relationship('tenant', 'full_name')->required(),
+                Select::make('property_id')->relationship('property', 'number')->required(),
+                Select::make('contract_id')->relationship('contract', 'number')->required(),
                 TextInput::make('number')->required(),
                 DatePicker::make('issue_date')->required(),
                 DatePicker::make('due_date')->required(),
@@ -47,7 +48,7 @@ class InvoiceResource extends Resource
             ->columns([
                 TextColumn::make('tenant.full_name'),
                 TextColumn::make('number'),
-                TextColumn::make('amount'),
+                TextColumn::make('amount')->money('EUR'),
                 TextColumn::make('due_date'),
                 Tables\Columns\IconColumn::make('paid')->boolean(),
             ])

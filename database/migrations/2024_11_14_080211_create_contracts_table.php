@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('tenant_id')->constrained('tenants')->cascadeOnDelete();
             $table->foreignId('property_id')->constrained('properties')->cascadeOnDelete();
             $table->string('number')->unique();
-            $table->decimal('bail', 10, 2);
-            $table->decimal('yearly_fee', 10, 2);
-            $table->unsignedSmallInteger('tax')->default(20);
-            $table->unsignedSmallInteger('pay_term')->default(15);
+            $table->decimal('bail', 10, 2)->nullable();
+            $table->decimal('yearly_fee', 10, 2)->nullable();
+            $table->unsignedSmallInteger('tax')->nullable(); //'->default(20);
+            $table->unsignedSmallInteger('pay_term')->nullable(); //->default(15);
             $table->date('start_date');  // start of contract
             $table->date('length')->nullable();  // length of contract
             $table->date('end_date')->nullable();  // end of contract

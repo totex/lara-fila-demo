@@ -52,17 +52,17 @@ class PropertyResource extends Resource
                         Forms\Components\Select::make('tenant_id')
                             ->label('Nájomník')
 //                            ->relationship('tenant', 'first_name')
-//                            ->relationship('tenant', 'first_name')
+                            ->relationship('tenant', 'full_name')
 //                            ->options(Tenant::all()->pluck('full_name', 'id'))
 //                            ->getSearchResultsUsing(fn (string $search): array => Tenant::where('first_name', 'like', "%{$search}%")
 //                                ->limit(5)->pluck('first_name', 'id')->toArray())
-                            ->relationship(
-                                name: 'tenant',
-                                modifyQueryUsing: fn (Builder $query) => $query->orderBy('first_name')->orderBy('last_name'),
-                            )
-                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+//                            ->relationship(
+//                                name: 'tenant',
+//                                modifyQueryUsing: fn (Builder $query) => $query->orderBy('first_name')->orderBy('last_name'),
+//                            )
+//                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
 
-                            ->searchable(['first_name', 'last_name', 'email'])
+                            ->searchable(['first_name', 'last_name', 'full_name', 'email'])
 //                            ->live()
 //                            ->preload()
                             ->createOptionForm([
@@ -90,9 +90,10 @@ class PropertyResource extends Resource
                             ->label('Dôvod vyradenia')
                             ->columnSpan('full'),
 
-                        Forms\Components\Select::make('invoice_id')
-                            ->label('Faktúra')
-                            ->relationship('invoice', 'number'),
+//                        Forms\Components\Select::make('invoice_id')
+//                            ->label('Faktúra')
+//                            ->relationship('invoice', 'number'),
+
                     ])->collapsible()->columns(2)
             ]);
     }
@@ -137,7 +138,9 @@ class PropertyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TenantRelationManager::class,
+            RelationManagers\ContractRelationManager::class,
+            RelationManagers\InvoiceRelationManager::class
         ];
     }
 

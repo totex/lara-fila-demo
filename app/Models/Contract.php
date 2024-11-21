@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Contract extends Model
 {
@@ -16,5 +17,9 @@ class Contract extends Model
 
     public function property(): BelongsTo {
         return $this->belongsTo(Property::class);
+    }
+
+    public function invoice(): HasOne {
+        return $this->hasOne(Invoice::class);
     }
 }

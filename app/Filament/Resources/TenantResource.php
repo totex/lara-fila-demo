@@ -63,7 +63,7 @@ class TenantResource extends Resource
 
                 // see getFullNameAttribute in Tenant model
                 TextColumn::make('full_name')->label('Meno Nájomníka')
-                    ->searchable(['first_name', 'last_name', 'email']),
+                    ->searchable(['first_name', 'last_name', 'full_name', 'email']),
 
                 TextColumn::make('address')->label('Adresa'),
             ])
