@@ -56,6 +56,7 @@ class ContractResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->columns([
                 TextColumn::make('tenant.full_name')
                     ->label('Nájomník')

@@ -37,6 +37,7 @@ class AreaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->columns([
                 TextColumn::make('name')->label('Meno Územia')
             ])

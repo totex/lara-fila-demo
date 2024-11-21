@@ -31,26 +31,46 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('tenant_id')->relationship('tenant', 'full_name')->required(),
-                Select::make('property_id')->relationship('property', 'number')->required(),
-                Select::make('contract_id')->relationship('contract', 'number')->required(),
-                TextInput::make('number')->required(),
-                DatePicker::make('issue_date')->required(),
-                DatePicker::make('due_date')->required(),
-                TextInput::make('amount')->numeric()->required(),
-                Checkbox::make('paid'),
+                Select::make('tenant_id')
+                    ->label('Nájomník')
+                    ->relationship('tenant', 'full_name')
+                    ->required(),
+                Select::make('property_id')
+                    ->label('Parcela / Mólo')
+                    ->relationship('property', 'number')
+                    ->required(),
+                Select::make('contract_id')
+                    ->label('Zmluva')
+                    ->relationship('contract', 'number')
+                    ->required(),
+                TextInput::make('number')
+                    ->label('Číslo')
+                    ->required(),
+                DatePicker::make('issue_date')
+                    ->label('Dátum vydania')
+                    ->required(),
+                DatePicker::make('due_date')
+                    ->label('Dátum splatnosti')
+                    ->required(),
+                TextInput::make('amount')
+                    ->label('Suma')
+                    ->numeric()
+                    ->required(),
+                Checkbox::make('paid')
+                    ->label('Zaplatené'),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->striped()
             ->columns([
-                TextColumn::make('tenant.full_name'),
-                TextColumn::make('number'),
-                TextColumn::make('amount')->money('EUR'),
-                TextColumn::make('due_date'),
-                Tables\Columns\IconColumn::make('paid')->boolean(),
+                TextColumn::make('tenant.full_name')->label('Nájomník'),
+                TextColumn::make('number')->label('Číslo'),
+                TextColumn::make('amount')->label('Suma')->money('EUR'),
+                TextColumn::make('due_date')->label('Dátum splatnosti')->date(),
+                Tables\Columns\IconColumn::make('paid')->boolean()->label('Zaplatené'),
             ])
             ->filters([
                 //
