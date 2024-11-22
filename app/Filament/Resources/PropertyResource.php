@@ -104,7 +104,8 @@ class PropertyResource extends Resource
             ->striped()
             ->columns([
                 // see getPropertyTypeAttribute in Property model
-                TextColumn::make('property_type')->label('Typ'),
+                TextColumn::make('property_type')
+                    ->label('Typ'),
 
                 TextColumn::make('area.name')
                     ->label('Územie')
@@ -122,7 +123,8 @@ class PropertyResource extends Resource
                     ->searchable()
             ])
             ->filters([
-                SelectFilter::make('type')->options(['parcel' => 'parcela', 'pier' => 'mólo'])
+                SelectFilter::make('type')
+                    ->options(['parcel' => 'parcela', 'pier' => 'mólo'])
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
